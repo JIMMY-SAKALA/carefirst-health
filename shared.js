@@ -2,6 +2,8 @@
 
 const STORAGE_KEY = 'carefirst_queue';
 const ID_KEY = 'carefirst_nextId';
+const ADMIN_KEY = 'carefirst_admin';
+const ADMIN_PASSWORD = 'CareFirst@2026';
 
 // Severity weights
 const SEVERITY_SCORE = { critical: 100, severe: 70, moderate: 40, mild: 10 };
@@ -19,6 +21,9 @@ function calculatePriority(age, severity) {
 // Load queue from localStorage
 let queue = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let nextId = parseInt(localStorage.getItem(ID_KEY) || '1', 10);
+
+// Admin state
+let isAdmin = localStorage.getItem(ADMIN_KEY) === 'true';
 
 // Seed demo data on first visit
 if (queue.length === 0 && !localStorage.getItem('carefirst_seeded')) {
@@ -87,7 +92,7 @@ function animateCounter(el, target) {
   }, speed);
 }
 
-// Update just the stats (used on home page)
+// Update just the stats
 function updateStats() {
   const totalEl = document.getElementById('totalCount');
   const criticalEl = document.getElementById('criticalCount');
@@ -98,15 +103,103 @@ function updateStats() {
   animateCounter(elderEl, active.filter(p => p.age >= 65).length);
 }
 
-// Render the queue table (only on queue.html)
+// ===== Admin Functions =====
+function adminLogin() {
+  const modal = document.getElementById('adminModal');
+  if (modal) modal.classList.add('show');
+}
+
+function adminLogout() {
+  isAdmin = false;
+  localStorage.removeItem(ADMIN_KEY);
+  updateAdminUI();
+  if (typeof renderQueue === 'function') renderQueue();
+}
+
+function handleAdminLogin() {
+  const input = document.getElementById('adminPassword');
+  const error = document.getElementById('adminError');
+  if (input.value === ADMIN_PASSWORD) {
+    isAdmin = true;
+    localStorage.setItem(ADMIN_KEY, 'true');
+    const modal = document.getElementById('adminModal');
+    if (modal) modal.classList.remove('show');
+    input.value = '';
+    error.hidden = true;
+    updateAdminUI();
+    if (typeof renderQueue === 'function') renderQueue();
+  } else {
+    error.hidden = false;
+    input.value = '';
+    input.focus();
+  }
+}
+
+function closeAdminModal() {
+  const modal = document.getElementById('adminModal');
+  if (modal) modal.classList.remove('show');
+  const error = document.getElementById('adminError');
+  if (error) error.hidden = true;
+}
+
+function updateAdminUI() {
+  const loginBtn = document.getElementById('adminLoginBtn');
+  const logoutBtn = document.getElementById('adminLogoutBtn');
+  const adminBadge = document.getElementById('adminBadge');
+  if (loginBtn) loginBtn.style.display = isAdmin ? 'none' : '';
+  if (logoutBtn) logoutBtn.style.display = isAdmin ? '' : 'none';
+  if (adminBadge) adminBadge.style.display = isAdmin ? '' : 'none';
+}
+
+// Delete single patient
+window.deletePatient = function(id) {
+  if (!isAdmin) return;
+  const p = queue.find(x => x.id === id);
+  if (p && confirm(`Delete record for "${p.name}"? This cannot be undone.`)) {
+    queue = queue.filter(x => x.id !== id);
+    saveQueue();
+    renderQueue();
+  }
+};
+
+// Delete all completed patients
+window.clearCompleted = function() {
+  if (!isAdmin) return;
+  const completed = queue.filter(p => p.status === 'done');
+  if (completed.length === 0) { alert('No completed records to clear.'); return; }
+  if (confirm(`Delete all ${completed.length} completed record(s)? This cannot be undone.`)) {
+    queue = queue.filter(p => p.status !== 'done');
+    saveQueue();
+    renderQueue();
+  }
+};
+
+// Delete ALL patients
+window.clearAllPatients = function() {
+  if (!isAdmin) return;
+  if (queue.length === 0) { alert('Queue is already empty.'); return; }
+  if (confirm(`Delete ALL ${queue.length} patient record(s)? This cannot be undone.`)) {
+    queue = [];
+    saveQueue();
+    renderQueue();
+  }
+};
+
+// Render the queue table
 function renderQueue() {
   const tbody = document.getElementById('queueBody');
   updateStats();
 
+  // Show/hide admin controls
+  const adminControls = document.getElementById('adminControls');
+  if (adminControls) adminControls.style.display = isAdmin ? '' : 'none';
+
   if (!tbody) return;
 
+  const colSpan = isAdmin ? 9 : 8;
+
   if (queue.length === 0) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="8">No patients in the queue yet. <a href="register.html" style="color:var(--clr-primary);font-weight:700;">Register a patient</a>.</td></tr>';
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="${colSpan}">No patients in the queue yet. <a href="register.html" style="color:var(--clr-primary);font-weight:700;">Register a patient</a>.</td></tr>`;
     return;
   }
 
@@ -131,6 +224,10 @@ function renderQueue() {
       actions = '<span style="color:#b2bec3;">—</span>';
     }
 
+    const deleteCol = isAdmin
+      ? `<td><button class="btn btn-sm btn-delete" onclick="deletePatient(${p.id})" title="Delete record">&#10005;</button></td>`
+      : '';
+
     return `<tr>
       <td><strong>${i + 1}</strong></td>
       <td>${escapeHtml(p.name)}${elderTag}</td>
@@ -140,8 +237,21 @@ function renderQueue() {
       <td><span class="priority-score ${prioClass}">${p.priority}</span></td>
       <td><span class="${statusClass}">${statusLabel}</span></td>
       <td>${actions}</td>
+      ${deleteCol}
     </tr>`;
   }).join('');
+
+  // Update table header for delete column
+  const thead = tbody.closest('table').querySelector('thead tr');
+  const existingDeleteTh = thead.querySelector('.delete-th');
+  if (isAdmin && !existingDeleteTh) {
+    const th = document.createElement('th');
+    th.className = 'delete-th';
+    th.textContent = 'Delete';
+    thead.appendChild(th);
+  } else if (!isAdmin && existingDeleteTh) {
+    existingDeleteTh.remove();
+  }
 }
 
 // Render a mini preview table (for home page)
@@ -226,3 +336,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.fade-up, .fade-left, .fade-right, .scale-in').forEach(el => observer.observe(el));
+
+// Init admin UI on page load
+document.addEventListener('DOMContentLoaded', updateAdminUI);

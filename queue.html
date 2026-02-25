@@ -19,9 +19,29 @@
         <li><a href="queue.html" class="active">Live Queue</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
+      <div class="nav-admin">
+        <span id="adminBadge" class="admin-badge" style="display:none;">Admin</span>
+        <button id="adminLoginBtn" class="btn btn-sm btn-admin-login" onclick="adminLogin()">Admin Login</button>
+        <button id="adminLogoutBtn" class="btn btn-sm btn-admin-logout" onclick="adminLogout()" style="display:none;">Logout</button>
+      </div>
       <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
     </div>
   </nav>
+
+  <!-- Admin Login Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAdminModal()">&times;</button>
+      <div class="modal-icon">&#128274;</div>
+      <h2>Admin Login</h2>
+      <p>Enter the admin password to manage patient records.</p>
+      <div class="modal-form">
+        <input type="password" id="adminPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter')handleAdminLogin()" />
+        <p id="adminError" class="modal-error" hidden>Incorrect password. Try again.</p>
+        <button class="btn btn-gradient btn-block" onclick="handleAdminLogin()">Login</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Page Header -->
   <section class="page-header page-header-purple">
@@ -44,6 +64,17 @@
         <div class="stat"><span id="totalCount">0</span><div class="stat-label">Total</div></div>
         <div class="stat"><span id="criticalCount">0</span><div class="stat-label">Critical</div></div>
         <div class="stat"><span id="elderCount">0</span><div class="stat-label">Elders (65+)</div></div>
+      </div>
+
+      <!-- Admin Controls (visible only to admin) -->
+      <div id="adminControls" class="admin-controls" style="display:none;">
+        <div class="admin-controls-header">
+          <span class="admin-badge">Admin Controls</span>
+        </div>
+        <div class="admin-controls-actions">
+          <button class="btn btn-sm btn-admin-action" onclick="clearCompleted()">Clear Completed Records</button>
+          <button class="btn btn-sm btn-admin-action btn-admin-danger" onclick="clearAllPatients()">Delete All Records</button>
+        </div>
       </div>
 
       <div class="queue-table-wrap fade-up delay-1">
@@ -85,6 +116,7 @@
   <script src="shared.js"></script>
   <script>
     renderQueue();
+    updateAdminUI();
   </script>
 </body>
 </html>
