@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Queue — CareFirst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.html">Register Patient</a></li>
+        <li><a href="queue.html" class="active">Live Queue</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header page-header-purple">
+    <div class="hero-shapes">
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+    </div>
+    <div class="container page-header-content">
+      <h1>Live <span>Priority Queue</span></h1>
+      <p>Patients are automatically sorted — highest priority at the top</p>
+    </div>
+  </section>
+
+  <!-- Live Queue -->
+  <section class="queue-section">
+    <div class="container">
+      <div class="queue-stats scale-in">
+        <div class="stat"><span id="totalCount">0</span><div class="stat-label">Total</div></div>
+        <div class="stat"><span id="criticalCount">0</span><div class="stat-label">Critical</div></div>
+        <div class="stat"><span id="elderCount">0</span><div class="stat-label">Elders (65+)</div></div>
+      </div>
+
+      <div class="queue-table-wrap fade-up delay-1">
+        <table class="queue-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Severity</th>
+              <th>Priority Score</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="queueBody">
+            <tr class="empty-row">
+              <td colspan="8">Loading queue...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; margin-top: 36px;" class="fade-up delay-2">
+        <a href="register.html" class="btn btn-gradient">Register New Patient</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 CareFirst — Priority Healthcare Queue System</p>
+      <p class="footer-note">Designed to ensure elders and critically ill patients are never left waiting.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    renderQueue();
+  </script>
+</body>
+</html>

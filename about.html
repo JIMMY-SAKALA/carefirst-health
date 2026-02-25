@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — CareFirst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.html">Register Patient</a></li>
+        <li><a href="queue.html">Live Queue</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header page-header-blue">
+    <div class="hero-shapes">
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+    </div>
+    <div class="container page-header-content">
+      <h1>About <span>CareFirst</span></h1>
+      <p>Compassionate healthcare triaging, powered by smart priority scoring</p>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-section">
+    <div class="container about-grid">
+      <div class="about-text fade-left">
+        <h2 class="section-title left">Why <span>CareFirst</span>?</h2>
+        <p>In many healthcare facilities, patients are served on a first-come-first-served basis. This can leave elderly patients and critically ill individuals waiting in pain while less urgent cases are attended to.</p>
+        <p><strong>CareFirst</strong> solves this by automatically computing a priority score based on:</p>
+        <ul>
+          <li><strong>Age</strong> — patients 65 and above receive higher priority</li>
+          <li><strong>Condition severity</strong> — critical and severe cases are escalated</li>
+          <li><strong>Wait time</strong> — the longer someone waits, their priority gradually increases</li>
+        </ul>
+        <p>This ensures fair, compassionate, and medically sound triaging at every facility.</p>
+      </div>
+      <div class="about-values">
+        <div class="value-card fade-right delay-1">
+          <h4>&#10084; Compassion</h4>
+          <p>Prioritizing the most vulnerable members of our community.</p>
+        </div>
+        <div class="value-card fade-right delay-2">
+          <h4>&#9201; Efficiency</h4>
+          <p>Automated scoring reduces human error and speeds up triaging.</p>
+        </div>
+        <div class="value-card fade-right delay-3">
+          <h4>&#9878; Fairness</h4>
+          <p>Transparent priority scores ensure no patient is overlooked.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Priority Breakdown -->
+  <section class="priority-breakdown">
+    <div class="container">
+      <h2 class="section-title scale-in">Priority <span>Scoring</span> Breakdown</h2>
+      <p class="section-subtitle scale-in delay-1">How the system calculates who gets seen first</p>
+      <div class="scoring-grid">
+        <div class="score-card fade-up delay-1">
+          <div class="score-card-header critical-bg">Critical</div>
+          <div class="score-card-body">
+            <div class="score-value">100</div>
+            <p>Base points</p>
+          </div>
+        </div>
+        <div class="score-card fade-up delay-2">
+          <div class="score-card-header severe-bg">Severe</div>
+          <div class="score-card-body">
+            <div class="score-value">70</div>
+            <p>Base points</p>
+          </div>
+        </div>
+        <div class="score-card fade-up delay-3">
+          <div class="score-card-header moderate-bg">Moderate</div>
+          <div class="score-card-body">
+            <div class="score-value">40</div>
+            <p>Base points</p>
+          </div>
+        </div>
+        <div class="score-card fade-up delay-4">
+          <div class="score-card-header mild-bg">Mild</div>
+          <div class="score-card-body">
+            <div class="score-value">10</div>
+            <p>Base points</p>
+          </div>
+        </div>
+      </div>
+      <div class="bonus-cards">
+        <div class="bonus-card fade-up delay-2">
+          <div class="bonus-icon elder-bonus">+50</div>
+          <div>
+            <h4>Elder Bonus (65+)</h4>
+            <p>Senior patients receive an automatic +50 priority boost</p>
+          </div>
+        </div>
+        <div class="bonus-card fade-up delay-3">
+          <div class="bonus-icon very-elder-bonus">+70</div>
+          <div>
+            <h4>Very Elderly (80+)</h4>
+            <p>Patients 80 and above receive a total +70 priority boost</p>
+          </div>
+        </div>
+        <div class="bonus-card fade-up delay-4">
+          <div class="bonus-icon child-bonus">+30</div>
+          <div>
+            <h4>Young Children (under 5)</h4>
+            <p>Infants and toddlers receive an automatic +30 priority boost</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 CareFirst — Priority Healthcare Queue System</p>
+      <p class="footer-note">Designed to ensure elders and critically ill patients are never left waiting.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

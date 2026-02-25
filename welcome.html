@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome — CareFirst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4e 30%, #0e7c6b 60%, #6c5ce7 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .particle {
+      position: absolute; border-radius: 50%;
+      animation: rise linear infinite;
+      opacity: 0;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* Animated gradient rings */
+    .ring {
+      position: fixed; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.06);
+      animation: expandRing 6s ease-out infinite;
+    }
+    .ring:nth-child(1) { width: 200px; height: 200px; top: 50%; left: 50%; margin: -100px 0 0 -100px; animation-delay: 0s; }
+    .ring:nth-child(2) { width: 400px; height: 400px; top: 50%; left: 50%; margin: -200px 0 0 -200px; animation-delay: 1.5s; }
+    .ring:nth-child(3) { width: 600px; height: 600px; top: 50%; left: 50%; margin: -300px 0 0 -300px; animation-delay: 3s; }
+    @keyframes expandRing {
+      0%   { transform: scale(0.5); opacity: 1; border-color: rgba(108,92,231,.3); }
+      100% { transform: scale(2); opacity: 0; border-color: rgba(29,209,161,.1); }
+    }
+
+    /* Floating medical crosses */
+    .cross {
+      position: fixed; font-size: 2rem; color: rgba(255,255,255,.04);
+      animation: floatCross 12s ease-in-out infinite;
+    }
+    .cross:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; font-size: 3rem; }
+    .cross:nth-child(2) { top: 70%; left: 85%; animation-delay: -3s; font-size: 2.5rem; }
+    .cross:nth-child(3) { top: 30%; left: 75%; animation-delay: -6s; font-size: 4rem; }
+    .cross:nth-child(4) { top: 80%; left: 15%; animation-delay: -9s; font-size: 2rem; }
+    .cross:nth-child(5) { top: 15%; left: 55%; animation-delay: -2s; font-size: 3.5rem; }
+    @keyframes floatCross {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: .04; }
+      50% { transform: translateY(-40px) rotate(15deg); opacity: .08; }
+    }
+
+    /* Main content */
+    .welcome-container {
+      position: relative; z-index: 10;
+      text-align: center; padding: 40px;
+      max-width: 700px;
+    }
+
+    /* Heartbeat icon */
+    .welcome-icon {
+      font-size: 5rem; margin-bottom: 20px;
+      display: inline-block;
+      animation: heartbeat 1.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px rgba(214,48,49,.4));
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.25); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.2); }
+      56% { transform: scale(1); }
+    }
+
+    /* Welcome greeting */
+    .welcome-greeting {
+      font-size: 1.6rem; font-weight: 600;
+      color: rgba(255,255,255,.6);
+      margin-bottom: 6px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      animation: fadeSlideUp 1s ease-out .15s both;
+    }
+
+    /* Logo text */
+    .welcome-logo {
+      font-size: 4rem; font-weight: 900; color: #fff;
+      margin-bottom: 8px;
+      animation: fadeSlideUp 1s ease-out .3s both;
+      text-shadow: 0 4px 30px rgba(0,0,0,.3);
+    }
+    .welcome-logo .gradient-text {
+      background: linear-gradient(135deg, #1dd1a1, #a29bfe, #74b9ff, #fd79a8);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .welcome-tagline {
+      font-size: 1.3rem; color: rgba(255,255,255,.7);
+      margin-bottom: 12px; font-weight: 500;
+      animation: fadeSlideUp 1s ease-out .6s both;
+    }
+
+    .welcome-desc {
+      font-size: 1rem; color: rgba(255,255,255,.45);
+      margin-bottom: 48px; line-height: 1.7; max-width: 500px; margin-left: auto; margin-right: auto;
+      animation: fadeSlideUp 1s ease-out .8s both;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Enter button */
+    .enter-btn {
+      display: inline-block;
+      padding: 18px 56px;
+      font-size: 1.15rem; font-weight: 800;
+      color: #fff; text-decoration: none;
+      border: none; border-radius: 60px;
+      background: linear-gradient(135deg, #0e7c6b, #6c5ce7, #0984e3);
+      background-size: 200% 200%;
+      animation: fadeSlideUp 1s ease-out 1s both, gradientShift 3s ease infinite, btnGlow 2s ease-in-out infinite;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(108,92,231,.4);
+      transition: transform .3s, box-shadow .3s;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+    .enter-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 50px rgba(108,92,231,.6);
+    }
+    @keyframes btnGlow {
+      0%, 100% { box-shadow: 0 8px 40px rgba(108,92,231,.4), 0 0 0 0 rgba(29,209,161,.3); }
+      50% { box-shadow: 0 8px 40px rgba(108,92,231,.4), 0 0 30px 10px rgba(29,209,161,.15); }
+    }
+
+    .enter-btn .arrow {
+      display: inline-block;
+      margin-left: 10px;
+      animation: arrowBounce 1.5s ease-in-out infinite;
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+    }
+
+    /* Feature pills */
+    .features {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 40px;
+      animation: fadeSlideUp 1s ease-out .9s both;
+    }
+    .feature-pill {
+      padding: 8px 20px; border-radius: 50px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.7); font-size: .85rem; font-weight: 600;
+      backdrop-filter: blur(8px);
+      transition: all .3s;
+    }
+    .feature-pill:hover {
+      background: rgba(255,255,255,.15);
+      border-color: rgba(255,255,255,.25);
+      transform: translateY(-2px);
+    }
+    .pill-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      margin-right: 8px; vertical-align: middle;
+    }
+    .pill-dot.green { background: #1dd1a1; box-shadow: 0 0 8px #1dd1a1; }
+    .pill-dot.purple { background: #a29bfe; box-shadow: 0 0 8px #a29bfe; }
+    .pill-dot.blue { background: #74b9ff; box-shadow: 0 0 8px #74b9ff; }
+    .pill-dot.pink { background: #fd79a8; box-shadow: 0 0 8px #fd79a8; }
+
+    /* Bottom bar */
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #0e7c6b, #1dd1a1, #6c5ce7, #a29bfe, #0984e3, #74b9ff, #fd79a8, #e17055);
+      background-size: 200% 100%;
+      animation: barShift 3s linear infinite;
+    }
+    @keyframes barShift {
+      0% { background-position: 0% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating crosses -->
+  <div class="cross">&#10010;</div>
+  <div class="cross">&#10010;</div>
+  <div class="cross">&#10010;</div>
+  <div class="cross">&#10010;</div>
+  <div class="cross">&#10010;</div>
+
+  <!-- Expanding rings -->
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+
+  <!-- Particles (generated by JS) -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Welcome Content -->
+  <div class="welcome-container">
+    <div class="welcome-icon">&#9829;</div>
+    <div class="welcome-greeting">Welcome!</div>
+    <div class="welcome-logo"><span class="gradient-text">CareFirst</span></div>
+    <div class="welcome-tagline">Priority Healthcare Queue System</div>
+    <p class="welcome-desc">
+      Welcome to CareFirst — where every patient matters. Our smart triaging system
+      puts elders and critically ill patients first, because the most vulnerable should never wait.
+    </p>
+
+    <div class="features">
+      <div class="feature-pill"><span class="pill-dot green"></span>Elder Priority</div>
+      <div class="feature-pill"><span class="pill-dot purple"></span>Smart Scoring</div>
+      <div class="feature-pill"><span class="pill-dot blue"></span>Live Queue</div>
+      <div class="feature-pill"><span class="pill-dot pink"></span>Instant Triage</div>
+    </div>
+
+    <a href="home.html" class="enter-btn">
+      Enter System <span class="arrow">&rarr;</span>
+    </a>
+  </div>
+
+  <div class="bottom-bar"></div>
+
+  <script>
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    const colors = ['#1dd1a1', '#a29bfe', '#74b9ff', '#fd79a8', '#ffeaa7', '#55efc4'];
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 2;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.boxShadow = `0 0 ${size * 2}px ${p.style.background}`;
+      container.appendChild(p);
+    }
+  </script>
+</body>
+</html>

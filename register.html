@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Patient — CareFirst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.html" class="active">Register Patient</a></li>
+        <li><a href="queue.html">Live Queue</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header page-header-green">
+    <div class="hero-shapes">
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+      <div class="hero-shape"></div>
+    </div>
+    <div class="container page-header-content">
+      <h1>Register a <span>Patient</span></h1>
+      <p>Enter patient details to add them to the priority queue</p>
+    </div>
+  </section>
+
+  <!-- Registration Form -->
+  <section class="register-section">
+    <div class="container">
+      <form id="patientForm" class="patient-form scale-in" autocomplete="off">
+        <div class="form-grid">
+          <div class="form-group fade-left delay-1">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required placeholder="e.g. Mary Johnson" />
+          </div>
+          <div class="form-group fade-right delay-1">
+            <label for="age">Age</label>
+            <input type="number" id="age" required min="0" max="130" placeholder="e.g. 72" />
+          </div>
+          <div class="form-group fade-left delay-2">
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+              <option value="" disabled selected>Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group fade-right delay-2">
+            <label for="condition">Condition Severity</label>
+            <select id="condition" required>
+              <option value="" disabled selected>Select severity</option>
+              <option value="critical">Critical — Life threatening</option>
+              <option value="severe">Severe — Needs urgent care</option>
+              <option value="moderate">Moderate — Significant discomfort</option>
+              <option value="mild">Mild — Stable, minor issue</option>
+            </select>
+          </div>
+          <div class="form-group full-width fade-up delay-3">
+            <label for="symptoms">Symptoms / Notes</label>
+            <textarea id="symptoms" rows="3" placeholder="Describe symptoms briefly..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-gradient btn-block">Add to Priority Queue</button>
+      </form>
+      <div id="formMessage" class="form-message" hidden></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 CareFirst — Priority Healthcare Queue System</p>
+      <p class="footer-note">Designed to ensure elders and critically ill patients are never left waiting.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('patientForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const age = parseInt(document.getElementById('age').value, 10);
+      const gender = document.getElementById('gender').value;
+      const condition = document.getElementById('condition').value;
+      const symptoms = document.getElementById('symptoms').value.trim();
+
+      addPatient(name, age, gender, condition, symptoms);
+
+      const msg = document.getElementById('formMessage');
+      const priorityLabel = age >= 65 ? 'Elder priority applied!' : (condition === 'critical' ? 'Critical priority applied!' : 'Added to queue.');
+      msg.innerHTML = `${escapeHtml(name)} has been added to the queue. ${priorityLabel}<br><a href="queue.html" style="color:#0e7c6b;font-weight:800;text-decoration:underline;">View Live Queue &rarr;</a>`;
+      msg.className = 'form-message success';
+      msg.hidden = false;
+
+      this.reset();
+    });
+  </script>
+</body>
+</html>
