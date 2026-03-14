@@ -15,8 +15,9 @@
       <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
       <ul class="nav-links">
         <li><a href="home.html">Home</a></li>
-        <li><a href="register.html" class="active">Register Patient</a></li>
-        <li><a href="queue.html">Live Queue</a></li>
+        <li><a href="home.html#patient-portal" class="active">Patient Portal</a></li>
+        
+        
         <li><a href="about.html">About</a></li>
       </ul>
       <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
@@ -89,6 +90,12 @@
   </footer>
 
   <script src="shared.js"></script>
+  <script>
+    // Redirect to Patient Portal if accessed directly without selection
+    if (!sessionStorage.getItem("cf_portal_selection")) {
+      window.location.replace("home.html#patient-portal");
+    }
+  </script>
   <script>
     document.getElementById('patientForm').addEventListener('submit', function(e) {
       e.preventDefault();

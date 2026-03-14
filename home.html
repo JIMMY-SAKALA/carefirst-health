@@ -7,6 +7,67 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Patient Portal Selection Section */
+    .patient-portal-section {
+      padding: 80px 0;
+      background: #f8fffe;
+    }
+    .portal-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    @media (max-width: 640px) {
+      .portal-cards { grid-template-columns: 1fr; }
+    }
+    .portal-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px 36px;
+      box-shadow: 0 4px 24px rgba(0,184,148,0.10);
+      border: 2px solid transparent;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .portal-card:hover {
+      border-color: #00b894;
+      box-shadow: 0 8px 40px rgba(0,184,148,0.18);
+      transform: translateY(-4px);
+    }
+    .portal-card-icon {
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .portal-card h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #1a2236;
+      margin: 0;
+    }
+    .portal-card p {
+      color: #636e72;
+      font-size: 0.97rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .portal-card .btn {
+      margin-top: 8px;
+      width: 100%;
+    }
+    .portal-notice {
+      margin-top: 36px;
+      text-align: center;
+      color: #b2bec3;
+      font-size: 0.88rem;
+    }
+  </style>
 </head>
 <body>
   <!-- Navigation -->
@@ -15,8 +76,7 @@
       <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
       <ul class="nav-links">
         <li><a href="home.html" class="active">Home</a></li>
-        <li><a href="register.html">Register Patient</a></li>
-        <li><a href="queue.html">Live Queue</a></li>
+        <li><a href="#patient-portal">Patient Portal</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
       <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
@@ -36,8 +96,8 @@
       <h1><span class="hero-pulse">&#9829;</span> Elders &amp; Critical Patients First</h1>
       <p>Our smart priority system ensures the most vulnerable — seniors and critically ill patients — receive immediate attention at healthcare facilities.</p>
       <div class="btn-group">
-        <a href="register.html" class="btn btn-primary">Register a Patient</a>
-        <a href="queue.html" class="btn btn-outline">View Live Queue</a>
+        <a href="#patient-portal" class="btn btn-primary">Get Started</a>
+        <a href="about.html" class="btn btn-outline">Learn How It Works</a>
       </div>
     </div>
   </section>
@@ -68,40 +128,29 @@
     </div>
   </section>
 
-  <!-- Live Queue Preview -->
-  <section class="home-stats-section">
+  <!-- Patient Portal Selection -->
+  <section class="patient-portal-section" id="patient-portal">
+    <div class="rainbow-bar"></div>
     <div class="container">
-      <h2 class="section-title scale-in">Current <span>Queue Status</span></h2>
-      <p class="section-subtitle scale-in delay-1">Real-time overview of patients waiting</p>
+      <h2 class="section-title fade-up">Patient <span>Portal</span></h2>
+      <p class="section-subtitle fade-up delay-1">Please select what you would like to do</p>
 
-      <div class="queue-stats fade-up delay-2">
-        <div class="stat"><span id="totalCount">0</span><div class="stat-label">Total</div></div>
-        <div class="stat"><span id="criticalCount">0</span><div class="stat-label">Critical</div></div>
-        <div class="stat"><span id="elderCount">0</span><div class="stat-label">Elders (65+)</div></div>
+      <div class="portal-cards">
+        <div class="portal-card fade-up delay-2">
+          <div class="portal-card-icon">&#128203;</div>
+          <h3>Register as a Patient</h3>
+          <p>New to the queue? Enter your details so our system can assign you the right priority and add you to the waiting list.</p>
+          <button class="btn btn-primary" onclick="sessionStorage.setItem('cf_portal_selection','register'); window.location.href='register.html'">Register Now</button>
+        </div>
+        <div class="portal-card fade-up delay-3">
+          <div class="portal-card-icon">&#128203;</div>
+          <h3>View Live Queue</h3>
+          <p>Already registered? Check the current queue to see your position and estimated wait time.</p>
+          <button class="btn btn-outline" onclick="sessionStorage.setItem('cf_portal_selection','queue'); window.location.href='queue.html'">View Queue</button>
+        </div>
       </div>
 
-      <div class="queue-table-wrap fade-up delay-3">
-        <table class="queue-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Severity</th>
-              <th>Priority</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="miniQueueBody">
-            <tr class="empty-row">
-              <td colspan="5">Loading queue...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="text-align:center; margin-top: 32px;" class="fade-up delay-4">
-        <a href="queue.html" class="btn btn-gradient">View Full Queue &amp; Manage Patients</a>
-      </div>
+      <p class="portal-notice">Select an option above to continue. Direct access is not available without making a selection.</p>
     </div>
   </section>
 
@@ -114,9 +163,5 @@
   </footer>
 
   <script src="shared.js"></script>
-  <script>
-    updateStats();
-    renderMiniQueue();
-  </script>
 </body>
 </html>

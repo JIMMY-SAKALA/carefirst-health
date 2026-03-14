@@ -15,8 +15,9 @@
       <a href="home.html" class="logo"><span class="hero-pulse">&#9764;</span> CareFirst</a>
       <ul class="nav-links">
         <li><a href="home.html">Home</a></li>
-        <li><a href="register.html">Register Patient</a></li>
-        <li><a href="queue.html" class="active">Live Queue</a></li>
+        <li><a href="home.html#patient-portal">Patient Portal</a></li>
+        
+        
         <li><a href="about.html">About</a></li>
       </ul>
       <div class="nav-admin">
@@ -100,7 +101,7 @@
       </div>
 
       <div style="text-align:center; margin-top: 36px;" class="fade-up delay-2">
-        <a href="register.html" class="btn btn-gradient">Register New Patient</a>
+        <a href="home.html#patient-portal" class="btn btn-gradient">Register New Patient</a>
       </div>
     </div>
   </section>
@@ -114,6 +115,12 @@
   </footer>
 
   <script src="shared.js"></script>
+  <script>
+    // Redirect to Patient Portal if accessed directly without selection
+    if (!sessionStorage.getItem("cf_portal_selection")) {
+      window.location.replace("home.html#patient-portal");
+    }
+  </script>
   <script>
     renderQueue();
     updateAdminUI();
